@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="description" content="Вас приглашают на свидание в DateNow." />
+    <meta property="og:title" content="Приглашение на свидание · DateNow" />
+    <meta property="og:description" content="Откройте приглашение в DateNow." />
+    <title>Приглашение на свидание · DateNow</title>
+    <link rel="stylesheet" href="/assets/landing.css" />
+    <style>
+      .invite {
+        text-align: center;
+        max-width: 480px;
+        margin: auto;
+        padding: 32px 24px;
+      }
+      .invite img {
+        width: min(280px, 80%);
+        height: auto;
+        margin-bottom: 32px;
+      }
+      .invite h1 {
+        font-size: 28px;
+        line-height: 1.3;
+      }
+      .invite p {
+        line-height: 1.6;
+        color: #646875;
+      }
+      .invite a.open {
+        display: block;
+        padding: 18px;
+        margin: 28px 0;
+        border-radius: 28px;
+        background: #7a2035;
+        color: white;
+        text-decoration: none;
+        font-weight: 700;
+      }
+      .invite a {
+        color: #7a2035;
+      }
+      [hidden] {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="invite">
+      <img src="/assets/datenow-logo.svg" alt="DateNow" />
+      <h1>Вас приглашают на свидание</h1>
+      <p id="description">
+        Посмотрите карточку и ответьте на приглашение в приложении DateNow.
+      </p>
+      <a class="open" id="open-date" hidden>Открыть в DateNow</a>
+      <p id="help" hidden>
+        Если приложение не открылось, установите DateNow. Затем вернитесь к этой
+        ссылке. Для просмотра потребуется вход; действуют настройки поиска и
+        условия доступа.
+      </p>
+      <a href="/">О DateNow</a>
+      <noscript
+        ><p>
+          Для открытия приглашения включите JavaScript и нажмите ссылку ещё раз.
+        </p></noscript
+      >
+    </main>
+    <script>
+      (() => {
+        const parameters = new URLSearchParams(location.search);
+        const id = parameters.get('id');
+        const valid =
+          [...parameters.keys()].length === 1 &&
+          /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+            id || '',
+          );
+        if (!valid) {
+          document.getElementById('description').textContent =
+            'Ссылка на приглашение некорректна. Попросите отправить её ещё раз.';
+          return;
+        }
+        const button = document.getElementById('open-date');
+        button.href = 'datenow://date/' + id;
+        button.hidden = false;
+        document.getElementById('help').hidden = false;
+      })();
+    </script>
+  </body>
+</html>
